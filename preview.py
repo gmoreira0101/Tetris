@@ -10,7 +10,7 @@ class Preview:
 
         # shapes
         self.next_shapes = next_shapes
-        self.shape_surfaces = {'L':}
+        #self.shape_surfaces = {'L':}
         
 
     def run(self):
