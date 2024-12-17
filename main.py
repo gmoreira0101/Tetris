@@ -5,8 +5,24 @@ from score import Score
 from preview import Preview
 from pause import Pause
 
-from random import choice
+import random
 
+
+def generate_next_shapes(num_shapes, exclude_shape=None):
+    shapes = list(TETROMINOS.keys())
+    
+    if exclude_shape and exclude_shape in shapes:
+        shapes.remove(exclude_shape)
+    
+    next_shapes = []
+    
+    for _ in range(num_shapes):
+        shape = random.choice(shapes)
+        while next_shapes and shape == next_shapes[-1]:
+            shape = random.choice(shapes)
+        next_shapes.append(shape)
+    
+    return next_shapes
 class Main:
     def __init__(self):
         
@@ -18,8 +34,9 @@ class Main:
         self.clock = pygame.time.Clock()
         pygame.display.set_caption('Tetris')
 
-        #shapes
-        self.next_shapes = [choice(list(TETROMINOS.keys())) for shape in range(3)]
+
+        # Lista inicial aleatória
+        self.next_shapes = generate_next_shapes(3)
 
         #components
         self.game = Game(self.get_next_shape)
@@ -29,7 +46,7 @@ class Main:
 
     def get_next_shape(self):
         next_shape = self.next_shapes.pop(0)
-        self.next_shapes.append(choice(list(TETROMINOS.keys())))
+        self.next_shapes.append(generate_next_shapes(1, self.next_shapes[1])[0])
         return next_shape
     
     def run(self):
@@ -41,7 +58,7 @@ class Main:
             if self.restart:
                 #Reiniciando componentes
                 self.restart = False
-                self.next_shapes = [choice(list(TETROMINOS.keys())) for shape in range(3)]
+                self.next_shapes = generate_next_shapes(3)
                 self.game = Game(self.get_next_shape)
                 self.score = Score()
                 self.preview = Preview()
