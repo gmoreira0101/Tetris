@@ -41,6 +41,7 @@ class Main:
             if self.restart:
                 #Reiniciando componentes
                 self.restart = False
+                self.next_shapes = [choice(list(TETROMINOS.keys())) for shape in range(3)]
                 self.game = Game(self.get_next_shape)
                 self.score = Score()
                 self.preview = Preview()
