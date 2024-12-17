@@ -19,6 +19,11 @@ PAUSE_BUTTONS_PROPORTION = 0.75
 #Button
 FONT = ('Arial', 40)
 NOME_BOTAO = ["Voltar", "Reiniciar", "Sair"]
+INTERATION_COLORS = {
+            'normal': '#ffffff',
+            'hover': '#ff0000',
+            'pressed': '#333333',
+        }
 
 #window
 PADDING = 20

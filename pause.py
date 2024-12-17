@@ -1,7 +1,15 @@
 from settings import *
 from button import Button
+from game import Game
 class Pause:
-    def __init__(self):
+    def __init__(self, main, game:Game):
+        
+        #Restart
+        self.main = main
+        
+        #Objeto do jogo
+        self.game = game
+
         self.surface = pygame.Surface((PAUSE_WIDTH, PAUSE_HEIGHT))
         self.rect = self.surface.get_rect(center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2))
         self.display_surface = pygame.display.get_surface()
@@ -15,8 +23,14 @@ class Pause:
     def draw_buttons(self):
 
 
-        def teste():
-            print('teste')
+        def Resume():
+            self.game.pause_status = not self.game.pause_status
+        def Restart():
+            self.main.restart = True
+        def Quit():
+            self.main.quit = True
+
+        func_list = [Resume,Restart,Quit]
 
         #Criando Botões
         for i,tipo in enumerate(NOME_BOTAO):
@@ -26,7 +40,7 @@ class Pause:
 
             x = PADDING
             y = PADDING + i*(height+PADDING)
-            tmp = Button(self.buttons_surface,x,y,width,height, tipo ,teste)
+            tmp = Button(self.buttons_surface,x,y,[self.rect, self.rect_button],width,height, tipo ,func_list[i])
             self.buttons.append(tmp)
 
             

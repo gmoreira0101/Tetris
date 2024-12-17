@@ -2,9 +2,12 @@ import pygame
 from settings import *
 
 class Button():
-    def __init__(self, display, x, y, width, height, buttonText='Button', onclickFunction=None, onePress=False):
+    def __init__(self, display, x, y, POS, width, height, buttonText='Button', onclickFunction=None, onePress=False):
         self.x = x
         self.y = y
+        self.adj_x = x
+        self.adj_y = y
+
         self.width = width
         self.height = height
         self.onclickFunction = onclickFunction
@@ -13,13 +16,15 @@ class Button():
         self.display = display
         self.font = pygame.font.SysFont(FONT[0], FONT[1])
 
-        self.fillColors = {
-            'normal': '#ffffff',
-            'hover': '#ff0000',
-            'pressed': '#333333',
-        }
+        self.fillColors = INTERATION_COLORS
+
+        #Ajustando retangulo de interação
+        for rect in POS:
+            self.adj_x += rect.x
+            self.adj_y += rect.y
 
         self.button = pygame.Rect(self.x,self.y,self.width,self.height)
+        self.button_click = pygame.Rect(self.adj_x,self.adj_y,self.width,self.height)
         self.buttonSurf = self.font.render(buttonText, True, (20, 20, 20))
 
 
@@ -31,7 +36,7 @@ class Button():
         estado = 'normal'
 
         # Verifica se o mouse está sobre o botão
-        if self.button.collidepoint(mousePos):
+        if self.button_click.collidepoint(mousePos):
             estado = 'hover'  # Cor de hover
             if pygame.mouse.get_pressed(num_buttons=3)[0]:  # Se o botão do mouse estiver pressionado
                 estado = 'pressed'  # Cor quando pressionado

@@ -11,6 +11,8 @@ class Main:
     def __init__(self):
         
         #General
+        self.restart = False
+        self.quit = False
         pygame.init()
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
         self.clock = pygame.time.Clock()
@@ -23,7 +25,7 @@ class Main:
         self.game = Game(self.get_next_shape)
         self.score = Score()
         self.preview = Preview()
-        self.pause = Pause()
+        self.pause = Pause(self, self.game)
 
     def get_next_shape(self):
         next_shape = self.next_shapes.pop(0)
@@ -31,12 +33,18 @@ class Main:
         return next_shape
     
     def run(self):
-        while True:
+        while not self.quit:
             for event in pygame.event.get():
-                if event.type  == pygame.QUIT:
+                if event.type  == pygame.QUIT or self.quit:
                     pygame.quit()
                     exit()
-            
+            if self.restart:
+                #Reiniciando componentes
+                self.restart = False
+                self.game = Game(self.get_next_shape)
+                self.score = Score()
+                self.preview = Preview()
+                self.pause = Pause(self, self.game)
             #Display
             self.display_surface.fill(GRAY)
             
