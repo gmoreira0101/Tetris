@@ -7,6 +7,7 @@ class Game:
     def __init__(self, get_next_shape):
 
         #general
+        self.pause_status = False
         self.surface = pygame.Surface((GAME_WIDTH,GAME_HEIGHT))
         self.display_surface = pygame.display.get_surface()
         self.sprites = pygame.sprite.Group()
@@ -35,9 +36,13 @@ class Game:
             'horizontal move right' : Timer(MOVE_WAIT_TIME),
             'horizontal move left'  : Timer(MOVE_WAIT_TIME),
             'vertical move input'   : Timer(MOVE_WAIT_TIME),
-            'rotate'                : Timer(ROTATE_WAIT_TIME)  
+            'rotate'                : Timer(ROTATE_WAIT_TIME),  
         }
         self.timers['vertical move'].activate()
+
+        self.timer_pause = {
+            'pause'                 : Timer(PAUSE_WAIT_TIME)
+            }
     
     def create_new_tetromino(self):
         
@@ -58,6 +63,9 @@ class Game:
     def move_down(self):
         self.tetromino.move_down(1)
 
+    def pause(self):
+        self.pause_status = not self.pause_status
+
     def draw_grid(self):
         for col in range(1, COLUMNS):
             x = col * CELL_SIZE
@@ -70,6 +78,8 @@ class Game:
         self.surface.blit(self.line_surface, (0,0))
 
     def input(self):
+
+        #Pressionando teclado
         keys = pygame.key.get_pressed()
         if not self.timers['horizontal move left'].active:
             if keys[pygame.K_LEFT]:
@@ -90,6 +100,11 @@ class Game:
             if keys[pygame.K_UP]:
                 self.tetromino.rotate()
                 self.timers['rotate'].activate()
+        
+        if not self.timer_pause['pause'].active:
+            if keys[pygame.K_ESCAPE]:
+                self.pause()
+                self.timer_pause['pause'].activate()
     
     def check_fineshed_rows(self):
 
@@ -117,12 +132,14 @@ class Game:
             for block in self.sprites:
                 self.field_data[int(block.pos.y)][int(block.pos.x)] = block
 
-    def run(self):
+    def run(self, pause = False):
 
         #update
         self.input()
-        self.timer_update()
-        self.sprites.update()
+        self.timer_pause['pause'].update()
+        if not pause:
+            self.timer_update()
+            self.sprites.update()
 
         #drawing
         self.surface.fill(GRAY)

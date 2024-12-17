@@ -3,6 +3,7 @@ from sys import exit
 from game import Game
 from score import Score
 from preview import Preview
+from pause import Pause
 
 from random import choice
 
@@ -22,6 +23,7 @@ class Main:
         self.game = Game(self.get_next_shape)
         self.score = Score()
         self.preview = Preview()
+        self.pause = Pause()
 
     def get_next_shape(self):
         next_shape = self.next_shapes.pop(0)
@@ -37,10 +39,13 @@ class Main:
             
             #Display
             self.display_surface.fill(GRAY)
-            self.game.run()
-
+            
+            self.game.run(self.game.pause_status)
             self.score.run()
             self.preview.run(self.next_shapes)
+
+            if self.game.pause_status:
+                self.pause.run()
             
              
             #updating the game
