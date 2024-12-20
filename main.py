@@ -4,11 +4,12 @@ from game import Game
 from score import Score
 from preview import Preview
 from pause import Pause
+from os import path
 
 import random
 
 
-def generate_next_shapes(num_shapes, exclude_shape=None):
+def generate_next_shapes(num_shapes, exclude_shape = None):
     shapes = list(TETROMINOS.keys())
     
     if exclude_shape and exclude_shape in shapes:
@@ -33,6 +34,13 @@ class Main:
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
         self.clock = pygame.time.Clock()
         pygame.display.set_caption('Tetris')
+
+        #music
+        pygame.mixer.init()
+        
+        self.background_music = pygame.mixer.music.load(path.join('musics','TetrisSong.mp3'))
+        pygame.mixer.music.set_volume(0.3)
+        pygame.mixer.music.play(-1)
 
 
         # Lista inicial aleatória
