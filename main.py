@@ -73,7 +73,7 @@ class Main:
                 #Reiniciando componentes
                 self.restart = False
                 self.next_shapes = generate_next_shapes(3)
-                self.game = Game(self.get_next_shape)
+                self.game = Game(self.get_next_shape, self.update_score)
                 self.score = Score()
                 self.preview = Preview()
                 self.pause = Pause(self, self.game)
