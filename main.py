@@ -5,6 +5,7 @@ from score import Score
 from preview import Preview
 from pause import Pause
 from os import path
+import os
 
 import random
 
@@ -30,8 +31,14 @@ class Main:
         #General
         self.restart = False
         self.quit = False
+
+        #Configurando posicionamento da tela
+        os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (WINDOW_X_POS,WINDOW_Y_POS)
         pygame.init()
-        self.display_surface = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
+
+        #Criando interface display
+        self.display_surface = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT), pygame.NOFRAME)
+        
         self.clock = pygame.time.Clock()
         pygame.display.set_caption('Tetris')
 

@@ -1,9 +1,17 @@
 import pygame
+import tkinter as tk
+
+root = tk.Tk()
+
+# Get screen height (vertical pixel count)
+VERTICAL_PIXELS = root.winfo_screenheight()
+HORIZONTAL_PIXELS = root.winfo_screenwidth()
+root.destroy()
 
 #Game size
 COLUMNS = 10
 ROWS = 20
-CELL_SIZE = 40
+CELL_SIZE = 30
 GAME_WIDTH, GAME_HEIGHT = COLUMNS * CELL_SIZE, ROWS * CELL_SIZE
 
 #Side bar size
@@ -28,8 +36,9 @@ INTERATION_COLORS = {
 #window
 PADDING = 20
 WINDOW_WIDTH = GAME_WIDTH + SIDEBAR_WIDTH + PADDING * 3
-WINDOW_HEIGHT = GAME_HEIGHT + PADDING * 2
-
+WINDOW_HEIGHT = GAME_HEIGHT + PADDING*2
+WINDOW_X_POS = (HORIZONTAL_PIXELS - WINDOW_WIDTH)//2
+WINDOW_Y_POS = (VERTICAL_PIXELS - WINDOW_HEIGHT)//2-40
 #game behaviour
 UPDATE_START_SPEED = 800
 MOVE_WAIT_TIME = 200
