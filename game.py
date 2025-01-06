@@ -4,9 +4,10 @@ from random import choice
 from timer import Timer
 
 class Game:
-    def __init__(self, get_next_shape, update_score):
+    def __init__(self, get_next_shape, update_score, song):
 
         #general
+        self.song = song
         self.pause_status = False
         self.surface = pygame.Surface((GAME_WIDTH,GAME_HEIGHT))
         self.display_surface = pygame.display.get_surface()
@@ -22,6 +23,9 @@ class Game:
         self.line_surface.fill((0,255,0))
         self.line_surface.set_colorkey((0,255,0))
         self.line_surface.set_alpha(120)
+
+        # starting song
+        self.song(1)
 
         # tetromino
         self.field_data = [[0 for x in range(COLUMNS)] for y in range(ROWS)]
@@ -171,6 +175,9 @@ class Game:
         if not pause:
             self.timer_update()
             self.sprites.update()
+            self.song(-1)
+        else:
+            self.song(0)
 
         #drawing
         self.surface.fill(GRAY)

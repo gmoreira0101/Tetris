@@ -35,22 +35,28 @@ class Main:
         self.clock = pygame.time.Clock()
         pygame.display.set_caption('Tetris')
 
-        #music
-        pygame.mixer.init()
-        
-        self.background_music = pygame.mixer.music.load(path.join('musics','TetrisSong.mp3'))
-        pygame.mixer.music.set_volume(0.3)
-        pygame.mixer.music.play(-1)
-
-
         # Lista inicial aleatória
         self.next_shapes = generate_next_shapes(3)
 
         #components
-        self.game = Game(self.get_next_shape, self.update_score)
+        self.game = Game(self.get_next_shape, self.update_score, self.start_song)
         self.score = Score()
         self.preview = Preview()
         self.pause = Pause(self, self.game)
+
+
+    def start_song(self, setting = 1):
+
+        if setting == 1:
+            pygame.mixer.init()
+            
+            self.background_music = pygame.mixer.music.load(path.join('musics','TetrisSong.mp3'))
+            pygame.mixer.music.set_volume(0.25)
+            pygame.mixer.music.play(-1)
+        elif setting == 0:
+            pygame.mixer.music.pause()
+        elif setting == -1:
+            pygame.mixer.music.unpause()
 
     def update_score(self, lines, score, level):
         self.score.lines = lines
@@ -73,7 +79,7 @@ class Main:
                 #Reiniciando componentes
                 self.restart = False
                 self.next_shapes = generate_next_shapes(3)
-                self.game = Game(self.get_next_shape, self.update_score)
+                self.game = Game(self.get_next_shape, self.update_score, self.start_song)
                 self.score = Score()
                 self.preview = Preview()
                 self.pause = Pause(self, self.game)
