@@ -140,7 +140,7 @@ class Game:
                 self.timer_pause['pause'].activate()
     
     def check_fineshed_rows(self):
-        # Verificar se algum bloco ultrapassou a tela verticalmente
+        # Check if any block surpassed the screen vertically
         for row in self.field_data:
             for block in row:
                 if block and (block.pos.y < 0 or block.pos.y >= ROWS):  # Verifica se o bloco ultrapassou os limites verticais
