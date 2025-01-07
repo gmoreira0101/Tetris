@@ -90,6 +90,9 @@ class Main:
                 self.score = Score()
                 self.preview = Preview()
                 self.pause = Pause(self, self.game)
+            if self.game.endgame:
+                pygame.quit()
+                exit()
             #Display
             self.display_surface.fill(GRAY)
             

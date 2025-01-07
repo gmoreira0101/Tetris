@@ -23,6 +23,7 @@ class Pause:
     def draw_buttons(self):
 
 
+        #fucioalidades dos botões
         def Resume():
             self.game.pause_status = not self.game.pause_status
         def Restart():
@@ -52,6 +53,7 @@ class Pause:
         self.surface.blit(self.buttons_surface, self.rect_button)
         self.buttons_surface.fill((0,0,0))
 
+    #Função run update
     def run(self):
         self.surface.fill(GRAY)
         self.draw_buttons()

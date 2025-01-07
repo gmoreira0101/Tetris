@@ -13,6 +13,7 @@ class Game:
         self.display_surface = pygame.display.get_surface()
         self.sprites = pygame.sprite.Group()
         self.rect = self.surface.get_rect(topleft = (PADDING, PADDING))
+        self.endgame = False
 
         #game connection
         self.get_next_shape = get_next_shape
@@ -139,7 +140,13 @@ class Game:
                 self.timer_pause['pause'].activate()
     
     def check_fineshed_rows(self):
-
+        # Verificar se algum bloco ultrapassou a tela verticalmente
+        for row in self.field_data:
+            for block in row:
+                if block and (block.pos.y < 0 or block.pos.y >= ROWS):  # Verifica se o bloco ultrapassou os limites verticais
+                    self.endgame = True
+                    print("Game Over! Um bloco ultrapassou os limites verticais.")
+                    return  # Finaliza a função assim que detectar o erro
         #get the full row indexes
         delete_rows = []
         for i, row in enumerate(self.field_data):
